@@ -17,6 +17,7 @@ alwaysApply: true
 - Tailwind CSS 4
 - ESLint 9
 - Prettier
+- Zustand
 
 ## 主要依赖
 
