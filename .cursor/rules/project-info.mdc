@@ -1,0 +1,60 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Info
+
+## 项目概述
+
+这是一个基于 React + TypeScript + Vite + tailiwndcss 的 oklch 色板生成项目。
+
+## 技术栈
+
+- React 19
+- TypeScript
+- Vite 6
+- Tailwind CSS 4
+- ESLint 9
+- Prettier
+
+## 主要依赖
+
+- @uiw/react-color: 用于颜色选择器组件
+- culori: 用于颜色处理和转换
+- tailwindcss: 用于样式管理
+
+## 开发工具
+
+- ESLint: 代码质量检查
+- Prettier: 代码格式化
+- TypeScript: 类型检查
+
+## 项目结构
+
+```
+├── src/              # 源代码目录
+├── .cursor/          # Cursor IDE 配置
+├── .git/             # Git 版本控制
+├── node_modules/     # 依赖包
+├── public/           # 静态资源
+├── index.html        # 入口 HTML
+├── package.json      # 项目配置
+├── tsconfig.json     # TypeScript 配置
+├── vite.config.ts    # Vite 配置
+└── README.md         # 项目文档
+```
+
+## 开发规范
+
+1. 使用 TypeScript 进行开发
+2. 遵循 ESLint 和 Prettier 的代码规范
+3. 使用 Tailwind CSS 进行样式开发
+4. 使用 pnpm 作为包管理器
+
+## 开发命令
+
+- `pnpm dev`: 启动开发服务器
+- `pnpm build`: 构建生产版本
+- `pnpm lint`: 运行代码检查
+- `pnpm preview`: 预览生产构建
