@@ -18,12 +18,14 @@ alwaysApply: true
 - ESLint 9
 - Prettier
 - Zustand
+- Shadcn
 
 ## 主要依赖
 
 - @uiw/react-color: 用于颜色选择器组件
 - culori: 用于颜色处理和转换
 - tailwindcss: 用于样式管理
+- shadcn 用于组件
 
 ## 开发工具
 
