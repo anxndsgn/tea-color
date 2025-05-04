@@ -145,7 +145,18 @@ const initialPalette: Palette = {
   ],
 };
 
-export const paletteStore = create<Palette>((set) => ({
+export const paletteStore = create<
+  Palette & {
+    setPalette: (palette: Palette) => void;
+    setMode: (mode: spaceName) => void;
+    setName: (name: string) => void;
+    setHues: (hues: string[]) => void;
+    setTones: (tones: string[]) => void;
+    setColors: (colors: Color[][]) => void;
+    updateHue: (index: number, value: string) => void;
+    updateTone: (index: number, value: string) => void;
+  }
+>((set) => ({
   ...initialPalette,
   setPalette: (palette: Palette) => set({ ...palette }),
   setMode: (mode: spaceName) => set({ mode }),
@@ -153,4 +164,16 @@ export const paletteStore = create<Palette>((set) => ({
   setHues: (hues: string[]) => set({ hues }),
   setTones: (tones: string[]) => set({ tones }),
   setColors: (colors: Color[][]) => set({ colors }),
+  updateHue: (index: number, value: string) =>
+    set((state) => {
+      const newHues = [...state.hues];
+      newHues[index] = value;
+      return { hues: newHues };
+    }),
+  updateTone: (index: number, value: string) =>
+    set((state) => {
+      const newTones = [...state.tones];
+      newTones[index] = value;
+      return { tones: newTones };
+    }),
 }));
