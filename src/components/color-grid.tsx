@@ -4,6 +4,7 @@ import { paletteStore } from "../store/palette";
 import { Color } from "../type/type";
 import { getColorContrast } from "../utils/colorContrast";
 import { Input } from "./ui/input";
+import { selectionStore } from "@/store/selection";
 
 interface ColorCellProps {
   color: Color;
@@ -104,7 +105,7 @@ interface ColorGridProps {
 
 const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
   const { colors, hues, tones, updateHue, updateTone } = useStore(paletteStore);
-  const [selectedColor, setSelectedColor] = React.useState<Color | null>(null);
+  const { selectedColor, setSelectedColor } = useStore(selectionStore);
   const [editingHueIndex, setEditingHueIndex] = React.useState<number | null>(
     null,
   );
@@ -169,7 +170,7 @@ const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
                 color={color}
                 isSelected={selectedColor === color}
                 onClick={() => {
-                  setSelectedColor(color);
+                  setSelectedColor(color, rowIndex, colIndex);
                   onColorSelect?.(color);
                 }}
               />
