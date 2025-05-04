@@ -21,7 +21,7 @@ const ColorCell: React.FC<ColorCellProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`relative flex aspect-square w-full cursor-pointer items-center justify-center transition-all duration-200 ${isSelected ? "ring-2 ring-blue-500" : ""} `}
+      className={`relative flex aspect-square w-full cursor-pointer items-center justify-center transition-all duration-200 ${isSelected ? "scale-105" : ""} `}
       style={{
         backgroundColor: color.hex,
       }}
@@ -51,10 +51,20 @@ const EditableLabel: React.FC<EditableLabelProps> = ({
   className,
 }) => {
   const [editValue, setEditValue] = React.useState(value);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.select();
+    }
+  }, [isEditing]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       onSave(editValue);
+    } else if (e.key === "Escape") {
+      setEditValue(value);
+      onSave(value);
     }
   };
 
@@ -64,21 +74,24 @@ const EditableLabel: React.FC<EditableLabelProps> = ({
 
   if (isEditing) {
     return (
-      <Input
-        value={editValue}
-        onChange={(e) => setEditValue(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onBlur={handleBlur}
-        className={`h-6 min-w-[60px] px-1 py-0 text-sm ${className}`}
-        autoFocus
-      />
+      <div className={`relative flex h-6 items-center ${className}`}>
+        <Input
+          ref={inputRef}
+          value={editValue}
+          onChange={(e) => setEditValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+          className="absolute inset-0 h-6 min-w-[60px] border-0 p-0 text-center text-sm font-medium text-gray-500 focus-visible:ring-1 focus-visible:ring-offset-0"
+          autoFocus
+        />
+      </div>
     );
   }
 
   return (
     <div
       onClick={onEdit}
-      className={`cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700 ${className}`}
+      className={`flex h-6 cursor-pointer items-center text-sm font-medium text-gray-500 hover:text-gray-700 ${className}`}
     >
       {value}
     </div>
@@ -122,7 +135,9 @@ const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
       <div className="min-w-[800px]">
         {/* 色调标题行 */}
         <div className="mb-1 grid grid-cols-[100px_repeat(10,1fr)] gap-1">
-          <div className="text-sm font-medium text-gray-500">色相 \ 色调</div>
+          <div className="flex h-6 items-center text-sm font-medium text-gray-500">
+            色相 \ 色调
+          </div>
           {tones.map((tone, index) => (
             <EditableLabel
               key={index}
@@ -130,7 +145,7 @@ const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
               isEditing={editingToneIndex === index}
               onEdit={() => handleToneEdit(index)}
               onSave={(value) => handleToneSave(index, value)}
-              className="text-center"
+              className="justify-center text-center"
             />
           ))}
         </div>
@@ -146,7 +161,7 @@ const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
               isEditing={editingHueIndex === rowIndex}
               onEdit={() => handleHueEdit(rowIndex)}
               onSave={(value) => handleHueSave(rowIndex, value)}
-              className="flex items-center"
+              className="justify-start"
             />
             {row.map((color, colIndex) => (
               <ColorCell
