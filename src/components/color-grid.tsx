@@ -2,7 +2,7 @@ import React from "react";
 import { useStore } from "zustand";
 import { paletteStore } from "../store/palette";
 import { Color } from "../type/type";
-import { getColorContrast } from "../utils/colorContrast";
+import { getColorContrast } from "../lib/color-contrast";
 import { Input } from "./ui/input";
 import { selectionStore } from "@/store/selection";
 
