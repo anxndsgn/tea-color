@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 import { Color } from "../type/type";
 
 interface SelectionState {
@@ -13,20 +14,27 @@ interface SelectionState {
   clearSelection: () => void;
 }
 
-export const selectionStore = create<SelectionState>((set) => ({
-  selectedColor: null,
-  selectedHueIndex: null,
-  selectedToneIndex: null,
-  setSelectedColor: (color, hueIndex, toneIndex) =>
-    set({
-      selectedColor: color,
-      selectedHueIndex: hueIndex,
-      selectedToneIndex: toneIndex,
-    }),
-  clearSelection: () =>
-    set({
+export const selectionStore = create<SelectionState>()(
+  devtools(
+    (set) => ({
       selectedColor: null,
       selectedHueIndex: null,
       selectedToneIndex: null,
+      setSelectedColor: (color, hueIndex, toneIndex) =>
+        set({
+          selectedColor: color,
+          selectedHueIndex: hueIndex,
+          selectedToneIndex: toneIndex,
+        }),
+      clearSelection: () =>
+        set({
+          selectedColor: null,
+          selectedHueIndex: null,
+          selectedToneIndex: null,
+        }),
     }),
-}));
+    {
+      name: "Selection Store",
+    },
+  ),
+);

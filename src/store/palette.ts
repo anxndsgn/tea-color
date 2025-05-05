@@ -1,5 +1,6 @@
 import { Palette, spaceName, Color } from "../type/type";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 // hue: row
 // tone: column
@@ -156,24 +157,31 @@ export const paletteStore = create<
     updateHue: (index: number, value: string) => void;
     updateTone: (index: number, value: string) => void;
   }
->((set) => ({
-  ...initialPalette,
-  setPalette: (palette: Palette) => set({ ...palette }),
-  setMode: (mode: spaceName) => set({ mode }),
-  setName: (name: string) => set({ name }),
-  setHues: (hues: string[]) => set({ hues }),
-  setTones: (tones: string[]) => set({ tones }),
-  setColors: (colors: Color[][]) => set({ colors }),
-  updateHue: (index: number, value: string) =>
-    set((state) => {
-      const newHues = [...state.hues];
-      newHues[index] = value;
-      return { hues: newHues };
+>()(
+  devtools(
+    (set) => ({
+      ...initialPalette,
+      setPalette: (palette: Palette) => set({ ...palette }),
+      setMode: (mode: spaceName) => set({ mode }),
+      setName: (name: string) => set({ name }),
+      setHues: (hues: string[]) => set({ hues }),
+      setTones: (tones: string[]) => set({ tones }),
+      setColors: (colors: Color[][]) => set({ colors }),
+      updateHue: (index: number, value: string) =>
+        set((state) => {
+          const newHues = [...state.hues];
+          newHues[index] = value;
+          return { hues: newHues };
+        }),
+      updateTone: (index: number, value: string) =>
+        set((state) => {
+          const newTones = [...state.tones];
+          newTones[index] = value;
+          return { tones: newTones };
+        }),
     }),
-  updateTone: (index: number, value: string) =>
-    set((state) => {
-      const newTones = [...state.tones];
-      newTones[index] = value;
-      return { tones: newTones };
-    }),
-}));
+    {
+      name: "Palette Store",
+    },
+  ),
+);
