@@ -8,8 +8,7 @@ function App() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-center text-3xl font-bold">色彩调色板</h1>
-      <div className="">
+      <div className="w-full">
         <ColorGrid onColorSelect={handleColorSelect} />
       </div>
     </div>

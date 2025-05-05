@@ -5,6 +5,7 @@ import { Color } from "../type/type";
 import { getColorContrast } from "../lib/color-contrast";
 import { Input } from "./ui/input";
 import { selectionStore } from "@/store/selected-color";
+import { cn } from "@/lib/utils";
 
 interface ColorCellProps {
   color: Color;
@@ -75,14 +76,19 @@ const EditableLabel: React.FC<EditableLabelProps> = ({
 
   if (isEditing) {
     return (
-      <div className={`relative flex h-6 items-center ${className}`}>
+      <div
+        className={cn(
+          "relative flex h-full items-center justify-center text-center",
+          className,
+        )}
+      >
         <Input
           ref={inputRef}
           value={editValue}
           onChange={(e) => setEditValue(e.target.value)}
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
-          className="absolute inset-0 h-6 min-w-[60px] border-0 p-0 text-center text-sm font-medium text-gray-500 focus-visible:ring-1 focus-visible:ring-offset-0"
+          className="inset-0 h-6 min-w-[60px] border-0 p-0 text-center text-sm font-medium text-neutral-500 focus-visible:ring-1 focus-visible:ring-offset-0"
           autoFocus
         />
       </div>
@@ -92,9 +98,12 @@ const EditableLabel: React.FC<EditableLabelProps> = ({
   return (
     <div
       onClick={onEdit}
-      className={`flex h-6 cursor-pointer items-center text-sm font-medium text-gray-500 hover:text-gray-700 ${className}`}
+      className={cn(
+        "flex h-full w-full cursor-pointer items-center text-center text-sm font-medium text-neutral-500 hover:text-neutral-700",
+        className,
+      )}
     >
-      {value}
+      <span className="w-full">{value}</span>
     </div>
   );
 };
@@ -133,12 +142,9 @@ const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
 
   return (
     <div className="w-full overflow-x-auto">
-      <div className="min-w-[800px]">
-        {/* 色调标题行 */}
-        <div className="mb-1 grid grid-cols-[100px_repeat(10,1fr)] gap-1">
-          <div className="flex h-6 items-center text-sm font-medium text-gray-500">
-            色相 \ 色调
-          </div>
+      <div className="w-full">
+        <div className="mb-1 grid h-8 grid-cols-[100px_repeat(10,1fr)] items-center gap-1">
+          <div />
           {tones.map((tone, index) => (
             <EditableLabel
               key={index}
@@ -162,7 +168,7 @@ const ColorGrid: React.FC<ColorGridProps> = ({ onColorSelect }) => {
               isEditing={editingHueIndex === rowIndex}
               onEdit={() => handleHueEdit(rowIndex)}
               onSave={(value) => handleHueSave(rowIndex, value)}
-              className="justify-start"
+              className="items-center"
             />
             {row.map((color, colIndex) => (
               <ColorCell
