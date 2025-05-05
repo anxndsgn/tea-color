@@ -4,7 +4,7 @@ import { paletteStore } from "../store/palette";
 import { Color } from "../type/type";
 import { getColorContrast } from "../lib/color-contrast";
 import { Input } from "./ui/input";
-import { selectionStore } from "@/store/selection";
+import { selectionStore } from "@/store/selected-color";
 
 interface ColorCellProps {
   color: Color;
